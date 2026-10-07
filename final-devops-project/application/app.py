@@ -1,4 +1,5 @@
 import json
+import html
 import os
 import sqlite3
 import time
@@ -45,7 +46,8 @@ class Handler(BaseHTTPRequestHandler):
                 tasks = [{"id": row[0], "title": row[1]} for row in db.execute("SELECT id,title FROM tasks ORDER BY id DESC")]
             self.send(200, json.dumps(tasks), "application/json")
         elif self.path == "/":
-            page = f"""<!doctype html><html><head><meta name=viewport content='width=device-width, initial-scale=1'><title>{TITLE}</title><style>body{{font:16px system-ui;max-width:640px;margin:60px auto;padding:0 20px}}input,button{{padding:10px;font:inherit}}li{{margin:10px 0}}</style></head><body><h1>{TITLE}</h1><p>A small task board deployed through the DevOps pipeline.</p><input id=task placeholder='Task title'><button onclick='save()'>Add</button><ul id=list></ul><script>async function load(){{const r=await fetch('/api/tasks');document.querySelector('#list').innerHTML=(await r.json()).map(t=>'<li>'+t.title.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</li>').join('')}}async function save(){{const title=document.querySelector('#task').value;await fetch('/api/tasks',{{method:'POST',headers:{{'Content-Type':'application/json','Authorization':'Bearer '+(sessionStorage.token||'')}},body:JSON.stringify({{title}})}});load()}}load()</script></body></html>"""
+            safe_title = html.escape(TITLE)
+            page = f"""<!doctype html><html><head><meta name=viewport content='width=device-width, initial-scale=1'><title>{safe_title}</title><style>body{{font:16px system-ui;max-width:640px;margin:60px auto;padding:0 20px}}input,button{{padding:10px;font:inherit}}li{{margin:10px 0}}</style></head><body><h1>{safe_title}</h1><p>A small task board deployed through the DevOps pipeline.</p><input id=task placeholder='Task title'><button onclick='save()'>Add</button><ul id=list></ul><script>async function load(){{const r=await fetch('/api/tasks');document.querySelector('#list').innerHTML=(await r.json()).map(t=>'<li>'+t.title.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</li>').join('')}}async function save(){{const title=document.querySelector('#task').value;await fetch('/api/tasks',{{method:'POST',headers:{{'Content-Type':'application/json','Authorization':'Bearer '+(sessionStorage.token||'')}},body:JSON.stringify({{title}})}});load()}}load()</script></body></html>"""
             self.send(200, page, "text/html; charset=utf-8")
         else:
             self.send(404, "not found")

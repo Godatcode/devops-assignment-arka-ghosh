@@ -1,0 +1,10 @@
+services:
+  node:
+    build: ../session-06-docker-fundamentals/nodejs-app
+    ports: ["3001:3000"]
+  python:
+    build: ../session-06-docker-fundamentals/python-app
+    ports: ["8001:8000"]
+  java:
+    build: ../session-06-docker-fundamentals/java-app
+    ports: ["8081:8080"]

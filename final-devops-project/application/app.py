@@ -7,7 +7,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 STARTED = time.time()
-DB = Path(os.getenv("DATA_DIR", "/tmp/devops-board")) / "board.db"
+DB = Path(os.getenv("DATA_DIR", str(Path.home() / ".devops-board"))) / "board.db"
 TITLE = os.getenv("APP_TITLE", "DevOps Task Board")
 TOKEN = os.getenv("APP_TOKEN", "")
 
@@ -73,4 +73,4 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    ThreadingHTTPServer(("0.0.0.0", int(os.getenv("PORT", "8080"))), Handler).serve_forever()
+    ThreadingHTTPServer((os.getenv("HOST", "127.0.0.1"), int(os.getenv("PORT", "8080"))), Handler).serve_forever()

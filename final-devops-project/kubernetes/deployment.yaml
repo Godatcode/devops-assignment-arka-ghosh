@@ -22,7 +22,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: board
-          image: ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+          image: ghcr.io/godatcode/devops-assignment-arka-ghosh:latest
           imagePullPolicy: Always
           ports: [{containerPort: 8080, name: http}]
           envFrom:

@@ -1,20 +1,20 @@
-resource "aws_s3_bucket" "homework" {
+resource "aws_s3_bucket" "assignment" {
   bucket = var.bucket_name
   tags = {
-    Project = "devops-homework"
+    Project = "devops-assignment"
     Owner   = "Godatcode"
   }
 }
 
-resource "aws_s3_bucket_versioning" "homework" {
-  bucket = aws_s3_bucket.homework.id
+resource "aws_s3_bucket_versioning" "assignment" {
+  bucket = aws_s3_bucket.assignment.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "homework" {
-  bucket = aws_s3_bucket.homework.id
+resource "aws_s3_bucket_server_side_encryption_configuration" "assignment" {
+  bucket = aws_s3_bucket.assignment.id
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
@@ -22,8 +22,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "homework" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "homework" {
-  bucket                  = aws_s3_bucket.homework.id
+resource "aws_s3_bucket_public_access_block" "assignment" {
+  bucket                  = aws_s3_bucket.assignment.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true

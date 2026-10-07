@@ -1,4 +1,4 @@
-# DevOps homework
+# DevOps assignment
 
 **Arka Ghosh · Enrollment 10110 · GitHub Godatcode**
 

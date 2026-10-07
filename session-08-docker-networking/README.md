@@ -1,6 +1,6 @@
 # Session 8: Docker networking and volumes
 
-[`network-lab.sh`](network-lab.sh) creates three bridge networks: front, back, and data. Frontend joins front, MySQL joins data, and backend joins both front and data. The script checks frontend-to-backend HTTP and backend-to-database DNS. Docker's embedded DNS resolves container names only on a shared user-defined network. The database password in this isolated lab is an example value; use a secret for real deployment.
+[`network-lab.sh`](network-lab.sh) creates three bridge networks: front, back, and data. Frontend joins front, MySQL joins data and back, and backend joins front and back. The script checks frontend-to-backend HTTP and backend-to-database DNS. Docker's embedded DNS resolves container names only on a shared user-defined network. The database password in this isolated lab is an example value; use a secret for real deployment.
 
 ```bash
 ./network-lab.sh

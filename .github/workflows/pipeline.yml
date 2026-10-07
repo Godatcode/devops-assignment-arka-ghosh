@@ -53,12 +53,12 @@ jobs:
           context: final-devops-project
           file: final-devops-project/docker/Dockerfile
           push: false
-          tags: ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+          tags: ghcr.io/godatcode/devops-assignment-arka-ghosh:latest
           load: true
       - name: Scan image
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+          image-ref: ghcr.io/godatcode/devops-assignment-arka-ghosh:latest
           severity: HIGH,CRITICAL
           exit-code: '1'
       - name: Log in to GHCR
@@ -70,4 +70,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish image
         if: github.event_name != 'pull_request'
-        run: docker push ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+        run: docker push ghcr.io/godatcode/devops-assignment-arka-ghosh:latest

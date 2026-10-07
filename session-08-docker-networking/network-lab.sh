@@ -6,7 +6,7 @@ docker run -d --name "${prefix}-frontend" --network "${prefix}-front" nginx:1.27
 docker run -d --name "${prefix}-backend" --network "${prefix}-back" nginx:1.27-alpine
 docker network connect "${prefix}-front" "${prefix}-backend"
 docker run -d --name "${prefix}-db" --network "${prefix}-data"   -e MYSQL_ROOT_PASSWORD=lab-only-password mysql:8.4
-docker network connect "${prefix}-data" "${prefix}-backend"
+docker network connect "${prefix}-back" "${prefix}-db"
 docker exec "${prefix}-frontend" wget -qO- http://"${prefix}-backend"
 docker exec "${prefix}-backend" getent hosts "${prefix}-db"
 docker inspect "${prefix}-backend" --format '{{json .NetworkSettings.Networks}}'

@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "project_name" {
   type    = string
-  default = "devops-homework"
+  default = "devops-assignment"
 }
 
 variable "bucket_name" {

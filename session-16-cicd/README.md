@@ -8,4 +8,4 @@ Run tests locally with `cd final-devops-project/application && python3 -m unitte
 
 ## GitHub Actions result
 
-The [successful run](https://github.com/Godatcode/devops-homework-arka-ghosh/actions/runs/37658770948) for commit `0ba05f1` passed the `test`, `scan`, and `image` jobs on 7 October 2026. The image job pushed the container to GHCR after the gates passed.
+The [successful run](https://github.com/Godatcode/devops-assignment-arka-ghosh/actions/runs/37658770948) for commit `0ba05f1` passed the `test`, `scan`, and `image` jobs on 7 October 2026. The image job pushed the container to GHCR after the gates passed.

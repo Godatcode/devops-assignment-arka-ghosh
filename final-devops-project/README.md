@@ -49,7 +49,7 @@ The GitHub Actions workflow tests source, scans for secrets and vulnerable/misco
 2. Change the Service selector to `app: wrong`. `kubectl get endpoints board` should show no backend. Restore `app: board` and test via port forwarding.
 3. Remove the Secret before rollout. Pod events should show the missing Secret. Recreate it outside Git and check readiness.
 
-These are intentionally reproducible scenarios. The actual before/after output belongs in the session 14 notes when run on a configured cluster; the repository does not invent screenshots.
+The Service selector scenario was run on the local cluster. Its before and after results are in the [cluster verification](../CLUSTER_VERIFICATION.md).
 
 ## Lessons learned
 
@@ -58,3 +58,5 @@ I found that the data model affects deployment strategy: a single SQLite file me
 ## Local verification (7 October 2026)
 
 All three unit tests passed. The Docker image built successfully. A running container returned `ok` from `/healthz`, `board_tasks_total 0` from `/metrics`, and `[]` from `/api/tasks`.
+
+The [local Kubernetes verification](../CLUSTER_VERIFICATION.md) also records the live Deployment, PVC persistence, Helm rollback, and Service troubleshooting checks.

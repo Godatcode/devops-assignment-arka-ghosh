@@ -29,4 +29,4 @@ This repository keeps the course exercises in session order. The final project i
 
 ## Verification
 
-`python3 -m unittest -v` passes for the task board. Docker build and HTTP checks are recorded in the relevant session READMEs. Kubernetes and AWS commands need a configured cluster and account; where neither is available, the README provides reproducible commands and does not present an expected result as a captured one.
+`python3 -m unittest -v` passes for the task board. Docker build and HTTP checks are recorded in the relevant session READMEs. The [local Kubernetes verification](CLUSTER_VERIFICATION.md) records the live cluster checks, including services, rollouts, storage, and Helm. A [GitHub Actions run](https://github.com/Godatcode/devops-assignment-arka-ghosh/actions/runs/37660421419) passed. Terraform was validated locally; AWS resources were not applied.

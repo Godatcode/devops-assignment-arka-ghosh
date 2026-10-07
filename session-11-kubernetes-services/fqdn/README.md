@@ -1,0 +1,3 @@
+# Fully qualified domain names in Kubernetes
+
+A fully qualified domain name identifies a host or Service with its complete DNS path. The usual Service form is `<service>.<namespace>.svc.cluster.local`. For example, `board.default.svc.cluster.local` reaches the `board` Service in `default`; another namespace needs that namespace in the name. A Pod can usually use the short name `board` for a Service in its own namespace because the Pod's DNS search path fills in the rest. A headless Service can return individual Pod IPs. The cluster domain may differ from `cluster.local` if configured differently.

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-board
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: {app: {{ .Release.Name }}-board}
+  template:
+    metadata:
+      labels: {app: {{ .Release.Name }}-board}
+    spec:
+      containers:
+        - name: board
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{containerPort: 8080}]
+          env:
+            - {name: APP_TITLE, value: {{ .Values.title | quote }}}
+            - {name: DATA_DIR, value: /data}
+            - name: APP_TOKEN
+              valueFrom:
+                secretKeyRef: {name: {{ .Values.secretName }}, key: APP_TOKEN}
+          volumeMounts: [{name: data, mountPath: /data}]
+          readinessProbe: {httpGet: {path: /readyz, port: 8080}}
+          livenessProbe: {httpGet: {path: /healthz, port: 8080}}
+      volumes: [{name: data, emptyDir: {}}]

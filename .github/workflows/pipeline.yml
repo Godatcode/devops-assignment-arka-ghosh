@@ -1,0 +1,70 @@
+name: Build test scan and publish
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.12'}
+      - name: Unit tests
+        run: cd final-devops-project/application && python -m unittest -v
+      - name: Compile source
+        run: python -m compileall -q final-devops-project/application
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.12'}
+      - name: SAST
+        run: python -m pip install bandit && bandit -r final-devops-project/application -ll
+      - name: Dependency and configuration scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: final-devops-project
+          scanners: vuln,misconfig,secret
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+  image:
+    needs: [test, scan]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v4
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: final-devops-project
+          file: final-devops-project/docker/Dockerfile
+          push: false
+          tags: ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+          load: true
+      - name: Scan image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ghcr.io/godatcode/devops-homework-arka-ghosh:latest
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish image
+        if: github.event_name != 'pull_request'
+        run: docker push ghcr.io/godatcode/devops-homework-arka-ghosh:latest

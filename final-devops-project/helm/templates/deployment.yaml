@@ -10,6 +10,10 @@ spec:
     metadata:
       labels: {app: {{ .Release.Name }}-board}
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        fsGroup: 65532
       containers:
         - name: board
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -20,6 +24,13 @@ spec:
             - name: APP_TOKEN
               valueFrom:
                 secretKeyRef: {name: {{ .Values.secretName }}, key: APP_TOKEN}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 500m, memory: 256Mi}
           volumeMounts: [{name: data, mountPath: /data}]
           readinessProbe: {httpGet: {path: /readyz, port: 8080}}
           livenessProbe: {httpGet: {path: /healthz, port: 8080}}

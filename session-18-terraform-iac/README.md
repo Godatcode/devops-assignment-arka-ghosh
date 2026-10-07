@@ -14,3 +14,7 @@ terraform destroy
 ```
 
 Do not commit state, the plan, credentials, or a real tfvars file. AWS credentials and billing access are required for plan/apply; the local files are infrastructure code, not proof that an AWS bucket was created. Service research is organized under [`aws-services`](aws-services).
+
+## Validation result
+
+Terraform 1.9.8 completed `terraform init -backend=false`, `terraform fmt -check`, and `terraform validate` successfully on 7 October 2026. No AWS plan or apply was run because this environment has no approved AWS deployment for the assignment.

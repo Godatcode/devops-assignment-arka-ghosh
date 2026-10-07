@@ -11,3 +11,5 @@ node_modules/
 terraform.tfvars
 
 .terraform-cache/
+
+.devops-board/

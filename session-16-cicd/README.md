@@ -5,3 +5,7 @@ CI builds and tests every change; CD publishes and deploys an approved version. 
 A workflow is the YAML automation definition; a job is a set of steps on one runner. `GITHUB_TOKEN` is a short-lived workflow credential. The Docker image is the build artifact. For cluster deployment, store a kubeconfig as a protected secret and require an environment approval; this repository does not claim a live cluster deployment.
 
 Run tests locally with `cd final-devops-project/application && python3 -m unittest -v`. The actual pipeline result is visible on the GitHub Actions tab after push.
+
+## GitHub Actions result
+
+The [successful run](https://github.com/Godatcode/devops-homework-arka-ghosh/actions/runs/37658770948) for commit `0ba05f1` passed the `test`, `scan`, and `image` jobs on 7 October 2026. The image job pushed the container to GHCR after the gates passed.

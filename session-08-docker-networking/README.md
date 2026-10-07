@@ -20,3 +20,5 @@ docker rm -f devops-lab-bind
 The second response changes without restarting the container because Nginx reads the mounted host file. On native Linux, `docker run --network host httpd:2.4` serves Apache on host port 80. Docker's host networking differs on macOS/Colima, and port 80 is already occupied on this machine, so I documented that host-only exercise without claiming a successful local run.
 
 An overlay network connects containers on multiple Docker hosts through Swarm. A manager creates the network, Docker distributes network membership, and encapsulated traffic can reach services across hosts. A single-host bridge exercise does not prove cross-host overlay behavior.
+
+The [captured Docker output](docker-output.md) shows the network and bind-mount checks from this machine.
